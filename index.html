@@ -789,15 +789,6 @@ function trackAndOpenModal(id) {
       if (isAdminUnlocked) renderAdminTable();
     }
 
-      // 3. Render ulang tampilan setelah semua data lengkap
-      updateCounts();
-      renderProducts();
-      updateCartUI();
-      checkUrlQueryParam();
-
-      if (isAdminUnlocked) renderAdminTable();
-    }
-    
     function initDomElements() {
       productGrid = document.getElementById("productGrid");
       emptyState = document.getElementById("emptyState");
