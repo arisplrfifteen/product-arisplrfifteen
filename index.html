@@ -764,39 +764,41 @@ function trackAndOpenModal(id) {
 }
 
 // 2. UPDATE FUNGSI initData (Menarik data unduhan permanen dari Firebase saat awal buka web)
-async function initData() {
-  initVisitorCounter(); 
-  initDomElements();
-  setupEventListeners();
+    async function initData() {
+      initVisitorCounter(); // PANGGIL PENGHITUNG PENGUNJUNG
+      initDomElements();
+      setupEventListeners();
 
-  let currentGhConfig = defaultGhConfig;
-  const savedGhConfig = localStorage.getItem("gh_config");
-  if (savedGhConfig) {
-    try {
-      currentGhConfig = { ...defaultGhConfig, ...JSON.parse(savedGhConfig) };
-    } catch (e) {}
-  }
+      let currentGhConfig = defaultGhConfig;
+      const savedGhConfig = localStorage.getItem("gh_config");
+      if (savedGhConfig) {
+        try {
+          currentGhConfig = { ...defaultGhConfig, ...JSON.parse(savedGhConfig) };
+        } catch (e) {}
+      }
 
-  if (ghToken) ghToken.value = currentGhConfig.token || "";
-  if (ghRepo) ghRepo.value = currentGhConfig.repo;
-  if (ghBranch) ghBranch.value = currentGhConfig.branch;
-  if (ghPath) ghPath.value = currentGhConfig.path;
+      if (ghToken) ghToken.value = currentGhConfig.token || "";
+      if (ghRepo) ghRepo.value = currentGhConfig.repo;
+      if (ghBranch) ghBranch.value = currentGhConfig.branch;
+      if (ghPath) ghPath.value = currentGhConfig.path;
 
-  try {
-    const res = await fetch(`./projects.json?t=${Date.now()}`);
-    if (res.ok) {
-      projectsData = await res.json();
-      saveToLocalStorage();
-    } else {
-      loadFromLocalStorage();
-    }
-  } catch (e) {
-    loadFromLocalStorage();
-  }
-
-        // AMBIL DATA TOTAL UNDUHAN PERMANEN DARI FIREBASE REALTIME DATABASE
+      // 1. Ambil data produk dulu dari projects.json atau localStorage
+      try {
+        const res = await fetch(`./projects.json?t=${Date.now()}`);
+        if (res.ok) {
+          projectsData = await res.json();
+          saveToLocalStorage();
+        } else {
+          loadFromLocalStorage();
+        }
+      } catch (e) {
+        loadFromLocalStorage();
+      }
+      
+      // 2. Setelah data produk ada, gabungkan dengan total unduhan dari Firebase
       if (typeof database !== "undefined") {
-        database.ref("downloads").once("value", (snapshot) => {
+        try {
+          const snapshot = await database.ref("downloads").once("value");
           const downloadsData = snapshot.val();
           if (downloadsData) {
             projectsData.forEach((project) => {
@@ -805,20 +807,19 @@ async function initData() {
               }
             });
           }
-          updateCounts();
-          renderProducts();
-        });
-      } else {
-        updateCounts();
-        renderProducts();
+        } catch (err) {
+          console.log("Gagal ambil data firebase clicks:", err);
+        }
       }
 
+      // 3. Render ulang tampilan setelah semua data lengkap
+      updateCounts();
+      renderProducts();
       updateCartUI();
-  checkUrlQueryParam();
+      checkUrlQueryParam();
 
-  if (isAdminUnlocked) renderAdminTable();
-}
-
+      if (isAdminUnlocked) renderAdminTable();
+    }
     
     function initDomElements() {
       productGrid = document.getElementById("productGrid");
