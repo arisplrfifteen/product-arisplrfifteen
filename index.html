@@ -742,29 +742,16 @@ async function initVisitorCounter() {
   }
 }
 
-    // FUNGSI MENCATAT UNDUHAN & BUKA MODAL TANPA DELAY
+    // FUNGSI MENCATAT & BUKA MODAL PRODUK UTAMA
 function trackAndOpenModal(id) {
   const project = projectsData.find((p) => p.id === id);
   if (project) {
-    // 1. Tambah hitungan lokal agar UI langsung naik
-    project.clicks = (project.clicks || 0) + 1;
-    saveToLocalStorage();
-    
-    // 2. Buka modal SEKARANG JUGA (instan tanpa tunggu network)
     openModal(project);
-
-    // 3. Kirim update ke Firebase di background secara realtime
-    if (typeof database !== "undefined") {
-      const clickRef = database.ref("downloads/" + id);
-      clickRef.transaction((currentValue) => {
-        return (currentValue || 0) + 1;
-      });
-    }
   }
 }
 
 // 2. UPDATE FUNGSI initData (Menarik data unduhan permanen dari Firebase saat awal buka web)
-    async function initData() {
+        async function initData() {
       initVisitorCounter(); // PANGGIL PENGHITUNG PENGUNJUNG
       initDomElements();
       setupEventListeners();
@@ -782,7 +769,6 @@ function trackAndOpenModal(id) {
       if (ghBranch) ghBranch.value = currentGhConfig.branch;
       if (ghPath) ghPath.value = currentGhConfig.path;
 
-      // 1. Ambil data produk dulu dari projects.json atau localStorage
       try {
         const res = await fetch(`./projects.json?t=${Date.now()}`);
         if (res.ok) {
@@ -795,22 +781,13 @@ function trackAndOpenModal(id) {
         loadFromLocalStorage();
       }
       
-      // 2. Setelah data produk ada, gabungkan dengan total unduhan dari Firebase
-      if (typeof database !== "undefined") {
-        try {
-          const snapshot = await database.ref("downloads").once("value");
-          const downloadsData = snapshot.val();
-          if (downloadsData) {
-            projectsData.forEach((project) => {
-              if (downloadsData[project.id] !== undefined) {
-                project.clicks = downloadsData[project.id];
-              }
-            });
-          }
-        } catch (err) {
-          console.log("Gagal ambil data firebase clicks:", err);
-        }
-      }
+      updateCounts();
+      renderProducts();
+      updateCartUI();
+      checkUrlQueryParam();
+
+      if (isAdminUnlocked) renderAdminTable();
+    }
 
       // 3. Render ulang tampilan setelah semua data lengkap
       updateCounts();
