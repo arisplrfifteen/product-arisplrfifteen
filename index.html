@@ -125,10 +125,10 @@
   <header class="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       
-        <!-- LOGO / BRANDING HEADER (GAYA WAVS) -->
+        <!-- OFFICIAL WEBSITE BY ARISPLRFIFTEEN -->
       <div class="flex items-center gap-3">
         <div class="flex items-center">
-          <img src="icon2.png" alt="FLIX Remix Logo" class="h-20 sm:h-24 w-auto object-contain" onerror="this.src='https://placehold.co/120x40/111/fff?text=FLIX'">
+          <img src="icon2.png" alt="FLIX" class="h-20 sm:h-24 w-auto object-contain" onerror="this.src='https://placehold.co/120x40/111/fff?text=FLIX'">
         </div>
         <div>
           <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white leading-none">
@@ -141,7 +141,7 @@
       <!-- HEADER NAVIGATION & ADMIN -->
       <div class="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
         
-        <!-- TEXT VIEW ICON ORANG / PENGUNJUNG WEBSITE -->
+        <!-- TEXT & ICON PENGUNJUNG-->
         <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl">
           <i data-lucide="users" class="w-4 h-4 text-blue-400"></i>
           <div class="text-left sm:text-right">
@@ -155,7 +155,7 @@
           <p class="text-sm font-bold text-white font-sans" id="totalCountDisplay">0 Produk</p>
         </div>
 
-        <!-- CHECKOUT CART BUTTON -->
+        <!-- KERANJANG BUTTON -->
         <button 
           id="btnOpenCart" 
           class="relative px-4 py-2 bg-white hover:bg-zinc-200 text-black font-extrabold text-xs font-mono rounded-xl transition flex items-center gap-2 shadow-lg shadow-white/5 active:scale-95 cursor-pointer"
@@ -165,6 +165,7 @@
           <span id="cartBadge" class="hidden px-2 py-0.5 bg-black text-white text-[10px] rounded-full font-bold ml-1">0</span>
         </button>
 
+        <!-- ADMIN BUTTON -->
         <button 
           id="btnToggleAdmin" 
           class="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono text-zinc-300 hover:text-white rounded-xl transition flex items-center gap-2 cursor-pointer"
@@ -177,11 +178,10 @@
     </div>
   </header>
 
-  <!-- ADMIN DASHBOARD MODAL -->
+  <!-- ADMIN POP UP -->
   <div id="adminSection" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar">
       
-      <!-- Modal Admin Header -->
       <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
         <div>
           <h2 class="text-lg font-bold text-white flex items-center gap-2">
@@ -215,10 +215,10 @@
         <p id="adminAuthMsg" class="text-xs text-red-400 hidden"></p>
       </div>
 
-      <!-- ADMIN CONTROLS (UNLOCKED) -->
+      <!-- ADMIN CONTROLS -->
       <div id="adminContent" class="hidden space-y-8">
         
-        <!-- GITHUB SYNC CONFIGURATION -->
+        <!-- SYNC -->
         <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-5 space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
