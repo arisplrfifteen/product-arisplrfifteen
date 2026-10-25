@@ -742,14 +742,48 @@ async function initVisitorCounter() {
   }
 }
 
-    // FUNGSI MENCATAT & BUKA MODAL PRODUK UTAMA
-function trackAndOpenModal(id) {
-  const project = projectsData.find((p) => p.id === id);
-  if (project) {
-    openModal(project);
-  }
-}
+        // FUNGSI MENCATAT & BUKA MODAL PRODUK UTAMA
+    function trackAndOpenModal(idOrObject) {
+      const id = (typeof idOrObject === 'object' && idOrObject !== null) ? idOrObject.id : idOrObject;
+      openModal(id);
+    }
 
+    function openModal(id) {
+      const project = projectsData.find((p) => p.id === id);
+      if (!project) return;
+
+      activeModalProject = project;
+      const displayCategory = project.isLimited ? "Tools" : project.isPlugin ? "Plugin" : project.isSample ? "Sample Pasar-an" : (project.category === "FL STUDIO" ? "FLP" : project.category === "FL MOBILE" ? "FLM" : project.category);
+
+      if (modalImg) modalImg.src = project.isSample ? defaultWaveAudioSvg : (project.coverArt ? project.coverArt : fallbackImageSvg);
+      if (modalCategory) modalCategory.textContent = displayCategory;
+      if (modalSize) modalSize.textContent = project.size || (project.isSample ? "Audio" : "-");
+      if (modalTitle) modalTitle.textContent = project.title;
+      if (modalCategoryLabel) modalCategoryLabel.textContent = displayCategory;
+      if (modalType) modalType.textContent = project.type || "arisplrfifteen";
+      if (modalDownloadLink) modalDownloadLink.href = project.downloadUrl;
+
+      if (modalAudioSection && modalAudioPlayer) {
+        if (project.isSample && project.audioUrl) {
+          modalAudioPlayer.src = project.audioUrl;
+          modalAudioSection.classList.remove("hidden");
+        } else {
+          modalAudioPlayer.src = "";
+          modalAudioSection.classList.add("hidden");
+        }
+      }
+
+      if (productModal) productModal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+
+      try {
+        const newUrl = `${window.location.pathname}?id=${project.id}`;
+        window.history.pushState({ path: newUrl }, "", newUrl);
+      } catch (e) {}
+
+      refreshIcons();
+    }
+    
 // 2. UPDATE FUNGSI initData (Menarik data unduhan permanen dari Firebase saat awal buka web)
         async function initData() {
       initVisitorCounter(); // PANGGIL PENGHITUNG PENGUNJUNG
