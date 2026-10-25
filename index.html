@@ -1271,7 +1271,7 @@ async function initVisitorCounter() {
     }
 
     async function initData() {
-      initVisitorCounter(); // PANGGIL PENGHITUNG PENGUNJUNG
+      initVisitorCounter();
       initDomElements();
       setupEventListeners();
 
@@ -1490,15 +1490,14 @@ async function initVisitorCounter() {
         sampleItems.forEach((project) => {
           const imageSrc = defaultWaveAudioSvg;
           const cardHtml = `
-            <div class="product-card bg-zinc-950/90 border border-emerald-500/20 hover:border-emerald-500/50 rounded-2xl overflow-hidden p-4 flex flex-col justify-between gap-3">
-              <div class="flex gap-3 items-center">
-                <img src="${imageSrc}" class="w-16 h-16 rounded-xl object-cover bg-zinc-900 border border-emerald-500/30">
-                <div class="overflow-hidden">
-                  <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-mono font-bold rounded-full">Sample Pasar-an</span>
-                  <h3 class="font-extrabold text-sm text-white truncate mt-1">${project.title}</h3>
-                  <p class="text-[11px] font-mono text-zinc-400">Audio Sample</p>
-                </div>
-              </div>
+            <div class="py-2 flex flex-col justify-between gap-3">
+  <div class="flex gap-3 items-center">
+    <div class="overflow-hidden">
+      <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-mono font-bold rounded-full">Sample Pasar-an</span>
+      <h3 class="font-extrabold text-sm text-white truncate mt-1">${project.title}</h3>
+      <p class="text-[11px] font-mono text-zinc-400">Samples</p>
+    </div>
+  </div>
 
               <div class="grid grid-cols-3 gap-2 pt-1">
                 <a href="${project.downloadUrl}" target="_blank" class="py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-[10px] font-mono rounded-xl transition flex items-center justify-center gap-1 shadow-md">
