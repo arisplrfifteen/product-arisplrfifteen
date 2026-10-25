@@ -1557,60 +1557,60 @@ async function initVisitorCounter() {
         });
       }
 
-      // 4. RENDER PRODUK UTAMA (TANPA LABEL TOTAL UNDUHAN / KLIK LINK)
-      const mainProducts = projectsData.filter((p) => !p.isLimited && !p.isPlugin && !p.isSample);
-      const filtered = mainProducts.filter((item) => {
-        const itemCat = item.category === "FL STUDIO" ? "FLP" : item.category === "FL MOBILE" ? "FLM" : item.category;
-        const matchesCategory = currentCategory === "ALL" || itemCat === currentCategory;
-        const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-      });
+      // 4. RENDER PRODUK UTAMA
+const mainProducts = projectsData.filter((p) => !p.isLimited && !p.isPlugin && !p.isSample);
+const filtered = mainProducts.filter((item) => {
+  const itemCat = item.category === "FL STUDIO" ? "FLP" : item.category === "FL MOBILE" ? "FLM" : item.category;
+  const matchesCategory = currentCategory === "ALL" || itemCat === currentCategory;
+  const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+  return matchesCategory && matchesSearch;
+});
 
-      productGrid.innerHTML = "";
-      if (filtered.length === 0) {
-        emptyState.classList.remove("hidden");
-      } else {
-        emptyState.classList.add("hidden");
-        filtered.forEach((project) => {
-          const imageSrc = project.coverArt ? project.coverArt : fallbackImageSvg;
-          const displayCategory = project.category === "FL STUDIO" ? "FLP" : project.category === "FL MOBILE" ? "FLM" : project.category;
+productGrid.innerHTML = "";
+if (filtered.length === 0) {
+  emptyState.classList.remove("hidden");
+} else {
+  emptyState.classList.add("hidden");
+  filtered.forEach((project) => {
+    const imageSrc = project.coverArt ? project.coverArt : fallbackImageSvg;
+    const displayCategory = project.category === "FL STUDIO" ? "FLP" : project.category === "FL MOBILE" ? "FLM" : project.category;
 
-          const cardHtml = `
-            <div 
-              onclick="trackAndOpenModal('${project.id}')"
-              class="product-card animate-light-sweep bg-zinc-950/90 border border-zinc-800/80 rounded-3xl overflow-hidden flex flex-col justify-between p-4 sm:p-5 group cursor-pointer"
-            >
-              <div>
-                <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-zinc-900 border border-zinc-800/60">
-                  <img src="${imageSrc}" alt="${project.title}" class="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0" loading="lazy" onerror="this.src='${fallbackImageSvg}'">
-                  
-                  <!-- BADGE TOTAL UNDUHAN DIHAPUS -->
+    const cardHtml = `
+      <div class="product-card animate-light-sweep bg-zinc-950/90 border border-zinc-800/80 rounded-3xl overflow-hidden flex flex-col justify-between p-4 sm:p-5 group">
+        
+        <!-- Area Gambar & Judul (Klik untuk Buka Pop-up) -->
+        <div class="cursor-pointer" onclick="openModal('${project.id}')">
+          <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-zinc-900 border border-zinc-800/60">
+            <img src="${imageSrc}" alt="${project.title}" class="w-full h-full object-cover grayscale transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0" loading="lazy" onerror="this.src='${fallbackImageSvg}'">
 
-                  <div class="absolute bottom-3 right-3 flex items-center gap-1.5">
-                    <span class="px-2.5 py-1 bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-zinc-300 rounded-full border border-zinc-800">${project.size}</span>
-                  </div>
-                </div>
-                <div class="px-1 mb-4">
-                  <h3 class="font-extrabold text-xs sm:text-sm text-white group-hover:text-white transition-colors duration-200 line-clamp-2 leading-snug mb-1">${project.title}</h3>
-                  <p class="text-xs text-zinc-400 font-mono"><span>${displayCategory}</span></p>
-                </div>
-              </div>
-              <div class="flex gap-2">
-                <button onclick="event.stopPropagation(); addToCart('${project.id}')" class="flex-1 py-1 px-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-white font-bold text-[10px] tracking-wider rounded-xl transition duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer">
-                  <i data-lucide="shopping-cart" class="w-3 h-3"></i>
-                  <span>Keranjang</span>
-                </button>
-                <button onclick="event.stopPropagation(); trackAndOpenModal('${project.id}')" class="py-1 px-2 bg-white hover:bg-zinc-200 text-black font-extrabold text-[10px] tracking-wider rounded-xl transition duration-200 flex items-center justify-center gap-1 group/btn shadow-md shadow-white/5 cursor-pointer">
-                  <span>LIHAT</span>
-                  <i data-lucide="arrow-right" class="w-3 h-3 transition-transform group-hover/btn:translate-x-0.5"></i>
-                </button>
-              </div>
+            <div class="absolute bottom-3 right-3 flex items-center gap-1.5">
+              <span class="px-2.5 py-1 bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-zinc-300 rounded-full border border-zinc-800">${project.size}</span>
             </div>
-          `;
-          productGrid.insertAdjacentHTML("beforeend", cardHtml);
-        });
-      }
+          </div>
+          <div class="px-1 mb-4">
+            <h3 class="font-extrabold text-xs sm:text-sm text-white group-hover:text-white transition-colors duration-200 line-clamp-2 leading-snug mb-1">${project.title}</h3>
+            <p class="text-xs text-zinc-400 font-mono"><span>${displayCategory}</span></p>
+          </div>
+        </div>
 
+        <!-- Tombol Aksi Keranjang & LIHAT -->
+        <div class="flex gap-2">
+          <button onclick="addToCart('${project.id}')" class="flex-1 py-1 px-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-white font-bold text-[10px] tracking-wider rounded-xl transition duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer">
+            <i data-lucide="shopping-cart" class="w-3 h-3"></i>
+            <span>Keranjang</span>
+          </button>
+          <button onclick="openModal('${project.id}')" class="py-1 px-2 bg-white hover:bg-zinc-200 text-black font-extrabold text-[10px] tracking-wider rounded-xl transition duration-200 flex items-center justify-center gap-1 group/btn shadow-md shadow-white/5 cursor-pointer">
+            <span>LIHAT</span>
+            <i data-lucide="arrow-right" class="w-3 h-3 transition-transform group-hover/btn:translate-x-0.5"></i>
+          </button>
+        </div>
+
+      </div>
+    `;
+    productGrid.insertAdjacentHTML("beforeend", cardHtml);
+  });
+}
+      
       if (isAdminUnlocked) renderAdminTable();
       refreshIcons();
     }
