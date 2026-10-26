@@ -404,21 +404,34 @@
     </section>
 
     <!-- BAGIAN SAMPLE PASARAN -->
-    <section id="samplePasaranSection" class="mb-14">
-      <div class="flex items-center justify-between mb-4 border-b border-zinc-800/80 pb-3">
-        <div class="flex items-center gap-2.5">
-          <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">WAV</span>
-          <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Samples</h2>
-        </div>
-        <span class="text-xs font-mono text-zinc-500" id="sampleCountDisplay">0 Item</span>
-      </div>
+<section id="samplePasaranSection" class="mb-14">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-zinc-800/80 pb-3">
+    <div class="flex items-center gap-2.5">
+      <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">WAV</span>
+      <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Samples</h2>
+      <span class="text-xs font-mono text-zinc-500 ml-1" id="sampleCountDisplay">0 Item</span>
+    </div>
 
-      <div id="sampleGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-      <div id="sampleEmptyState" class="hidden text-center py-8 bg-zinc-950/40 border border-zinc-900 rounded-2xl">
-        <p class="text-xs font-mono text-zinc-600">Belum ada sample audio yang ditambahkan.</p>
-      </div>
-    </section>
+    <!-- INPUT PENCARIAN SAMPLES -->
+    <div class="relative w-full sm:w-64">
+      <input 
+        type="text" 
+        id="sampleSearchInput" 
+        placeholder="Cari sample..." 
+        class="w-full pl-8 pr-3 py-1.5 bg-zinc-900/90 border border-zinc-800 rounded-xl text-white text-xs font-mono focus:outline-none focus:border-emerald-500/50 transition-colors"
+      >
+      <i data-lucide="search" class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5"></i>
+    </div>
+  </div>
 
+  <!-- CONTAINER SCROLLABLE SAMPLES -->
+  <div id="sampleGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[360px] overflow-y-auto pr-1.5 custom-scrollbar"></div>
+
+  <div id="sampleEmptyState" class="hidden text-center py-8 bg-zinc-950/40 border border-zinc-900 rounded-2xl">
+    <p class="text-xs font-mono text-zinc-600">Sample tidak ditemukan.</p>
+  </div>
+</section>
+    
       <!-- BUTTON KATEGORI -->
       <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3" id="categoryFilter">
         <button 
@@ -571,6 +584,7 @@
     let cartData = [];
     let currentCategory = "ALL";
     let searchQuery = "";
+    let sampleSearchQuery = "";
     let isAdminUnlocked = false;
     let activeModalProject = null;
     let activeAdminTab = "MAIN";
@@ -813,6 +827,16 @@ async function initVisitorCounter() {
     }
 
     function setupEventListeners() {
+
+      const sampleSearchInput = document.getElementById("sampleSearchInput");
+  if (sampleSearchInput) {
+    sampleSearchInput.addEventListener("input", (e) => {
+      sampleSearchQuery = e.target.value;
+      renderProducts();
+    });
+  }
+}
+    
       if (tabMainProduct && tabLimitedEdition && tabPlugins && tabSamplePasaran) {
         tabMainProduct.addEventListener("click", () => {
           activeAdminTab = "MAIN";
@@ -1394,44 +1418,49 @@ async function initVisitorCounter() {
       }
 
             // 3. SAMPLE PASAR-AN
-      const sampleItems = projectsData.filter((p) => p.isSample);
-      sampleGrid.innerHTML = "";
-      if (sampleItems.length === 0) {
-        sampleEmptyState.classList.remove("hidden");
-      } else {
-        sampleEmptyState.classList.add("hidden");
-        sampleItems.forEach((project) => {
-          const cardHtml = `
-            <div 
-              onclick="openModal('${project.id}')"
-              class="flex items-center justify-between p-3 bg-zinc-900/40 hover:bg-zinc-800/70 border border-zinc-800/60 hover:border-zinc-700 rounded-xl transition cursor-pointer group"
-            >
-              <div class="overflow-hidden pr-3">
-                <h3 class="font-bold text-xs sm:text-sm text-white group-hover:text-emerald-400 transition-colors truncate mb-1">${project.title}</h3>
-                <div class="flex items-center gap-2">
-                  <span class="px-2 py-0.5 bg-purple-500/15 text-purple-400 border border-purple-500/30 text-[9px] font-mono font-bold rounded flex items-center gap-1">
-                    <i data-lucide="audio-lines" class="w-3 h-3"></i> WAV
-                  </span>
-                  <span class="text-[11px] font-mono text-zinc-400 truncate">${project.category || 'era'}</span>
-                </div>
-              </div>
+const sampleItems = projectsData.filter((p) => {
+  const isSample = p.isSample;
+  const matchesSearch = p.title.toLowerCase().includes(sampleSearchQuery.toLowerCase());
+  return isSample && matchesSearch;
+});
 
-              <a 
-                href="${project.downloadUrl}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                onclick="event.stopPropagation()"
-                class="p-2 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800 flex-shrink-0"
-                title="Download"
-              >
-                <i data-lucide="download" class="w-4 h-4"></i>
-              </a>
-            </div>
-          `;
-          sampleGrid.insertAdjacentHTML("beforeend", cardHtml);
-        });
-      }
+sampleGrid.innerHTML = "";
+if (sampleItems.length === 0) {
+  sampleEmptyState.classList.remove("hidden");
+} else {
+  sampleEmptyState.classList.add("hidden");
+  sampleItems.forEach((project) => {
+    const cardHtml = `
+      <div 
+        onclick="openModal('${project.id}')"
+        class="flex items-center justify-between p-3 bg-zinc-900/40 hover:bg-zinc-800/70 border border-zinc-800/60 hover:border-zinc-700 rounded-xl transition cursor-pointer group"
+      >
+        <div class="overflow-hidden pr-3">
+          <h3 class="font-bold text-xs sm:text-sm text-white group-hover:text-emerald-400 transition-colors truncate mb-1">${project.title}</h3>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 bg-purple-500/15 text-purple-400 border border-purple-500/30 text-[9px] font-mono font-bold rounded flex items-center gap-1">
+              <i data-lucide="audio-lines" class="w-3 h-3"></i> WAV
+            </span>
+            <span class="text-[11px] font-mono text-zinc-400 truncate">${project.category || 'SAMPLE'}</span>
+          </div>
+        </div>
 
+        <a 
+          href="${project.downloadUrl}" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          onclick="event.stopPropagation()"
+          class="p-2 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800 flex-shrink-0"
+          title="Download"
+        >
+          <i data-lucide="download" class="w-4 h-4"></i>
+        </a>
+      </div>
+    `;
+    sampleGrid.insertAdjacentHTML("beforeend", cardHtml);
+  });
+}
+      
       // 4. PRODUK UTAMA
 const mainProducts = projectsData.filter((p) => !p.isLimited && !p.isPlugin && !p.isSample);
 const filtered = mainProducts.filter((item) => {
