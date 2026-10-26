@@ -91,7 +91,7 @@
 </head>
 <body class="bg-black text-zinc-100 font-sans min-h-screen flex flex-col antialiased selection:bg-white selection:text-black">
 
-  <!-- HEADER -->
+  <!-- TAMPILAN ATAS -->
   <header class="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       
@@ -107,11 +107,10 @@
           <p class="text-[11px] font-mono text-zinc-400 mt-0.5">by arisplrfifteen</p>
         </div>
       </div>
-
-      <!-- HEADER NAVIGATION & ADMIN -->
+      
       <div class="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
         
-        <!-- TEXT & ICON PENGUNJUNG-->
+        <!-- PENGUNJUNG -->
         <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl">
           <i data-lucide="users" class="w-4 h-4 text-blue-400"></i>
           <div class="text-left sm:text-right">
@@ -125,7 +124,7 @@
           <p class="text-sm font-bold text-white font-sans" id="totalCountDisplay">0 Produk</p>
         </div>
 
-        <!-- KERANJANG BUTTON -->
+        <!-- BUTTON KERANJANG -->
         <button 
           id="btnOpenCart" 
           class="relative px-4 py-2 bg-white hover:bg-zinc-200 text-black font-extrabold text-xs font-mono rounded-xl transition flex items-center gap-2 shadow-lg shadow-white/5 active:scale-95 cursor-pointer"
@@ -135,7 +134,7 @@
           <span id="cartBadge" class="hidden px-2 py-0.5 bg-black text-white text-[10px] rounded-full font-bold ml-1">0</span>
         </button>
 
-        <!-- ADMIN BUTTON -->
+        <!-- BUTTON ADMIN -->
         <button 
           id="btnToggleAdmin" 
           class="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono text-zinc-300 hover:text-white rounded-xl transition flex items-center gap-2 cursor-pointer"
@@ -148,7 +147,7 @@
     </div>
   </header>
 
-  <!-- ADMIN POP UP -->
+  <!-- POP UP ADMIN -->
   <div id="adminSection" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar">
       
@@ -305,7 +304,7 @@
           </form>
         </div>
 
-        <!-- LIST KATEGORI TER-UPLOAD-->
+        <!-- LIST TER-UPLOAD-->
         <div class="border border-zinc-800 rounded-2xl overflow-hidden bg-zinc-950/60 shadow-inner">
           <div class="px-5 py-4 bg-zinc-900/90 border-b border-zinc-800 space-y-3">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -369,7 +368,7 @@
     </div>
   </div>
 
-  <!-- MAIN CONTAINER | BERANDA -->
+  <!-- TAMPILAN BERANDA -->
   <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 animate-page-entrance">
     
     <!-- BAGIAN TOOLS -->
@@ -377,7 +376,7 @@
       <div class="flex items-center justify-between mb-4 border-b border-zinc-800/80 pb-3">
         <div class="flex items-center gap-2.5">
           <span class="px-2.5 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">Tools</span>
-          <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Platfrom | Software | DAW</h2>
+          <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Platfrom Aplikasi</h2>
         </div>
         <span class="text-xs font-mono text-zinc-500" id="limitedCountDisplay">0 Item</span>
       </div>
@@ -550,7 +549,7 @@
     <span id="toastMsg">Link produk berhasil disalin!</span>
   </div>
 
-  <!-- FOOTER -->
+  <!-- TAMPILAN BAWAH -->
   <footer class="border-t border-zinc-900 bg-black py-8 mt-12 text-center text-xs text-zinc-500 font-sans">
     <div class="max-w-6xl mx-auto px-4 space-y-2">
       <p>Ⓒ 2026 arisplrfifteen. All rights reserved.</p>
@@ -1326,7 +1325,7 @@ async function initVisitorCounter() {
     function renderProducts() {
       if (!productGrid || !emptyState || !limitedGrid || !limitedEmptyState || !pluginsGrid || !pluginsEmptyState || !sampleGrid || !sampleEmptyState) return;
 
-      // 1. RENDER TOOLS
+      // 1. TOOLS
       const limitedItems = projectsData.filter((p) => p.isLimited);
       limitedGrid.innerHTML = "";
       if (limitedItems.length === 0) {
@@ -1360,7 +1359,7 @@ async function initVisitorCounter() {
         });
       }
 
-      // 2. RENDER PLUGINS
+      // 2. PLUGINS
       const pluginItems = projectsData.filter((p) => p.isPlugin);
       pluginsGrid.innerHTML = "";
       if (pluginItems.length === 0) {
@@ -1394,7 +1393,7 @@ async function initVisitorCounter() {
         });
       }
 
-            // 3. RENDER SAMPLE PASAR-AN
+            // 3. SAMPLE PASAR-AN
       const sampleItems = projectsData.filter((p) => p.isSample);
       sampleGrid.innerHTML = "";
       if (sampleItems.length === 0) {
@@ -1411,7 +1410,7 @@ async function initVisitorCounter() {
                 <h3 class="font-bold text-xs sm:text-sm text-white group-hover:text-emerald-400 transition-colors truncate mb-1">${project.title}</h3>
                 <div class="flex items-center gap-2">
                   <span class="px-2 py-0.5 bg-purple-500/15 text-purple-400 border border-purple-500/30 text-[9px] font-mono font-bold rounded flex items-center gap-1">
-                    <i data-lucide="audio-lines" class="w-3 h-3"></i> COMP
+                    <i data-lucide="audio-lines" class="w-3 h-3"></i> WAV
                   </span>
                   <span class="text-[11px] font-mono text-zinc-400 truncate">${project.category || 'era'}</span>
                 </div>
@@ -1433,7 +1432,7 @@ async function initVisitorCounter() {
         });
       }
 
-      // 4. RENDER PRODUK UTAMA
+      // 4. PRODUK UTAMA
 const mainProducts = projectsData.filter((p) => !p.isLimited && !p.isPlugin && !p.isSample);
 const filtered = mainProducts.filter((item) => {
   const itemCat = item.category === "FL STUDIO" ? "FLP" : item.category === "FL MOBILE" ? "FLM" : item.category;
