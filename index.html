@@ -827,15 +827,13 @@ async function initVisitorCounter() {
     }
 
     function setupEventListeners() {
-
       const sampleSearchInput = document.getElementById("sampleSearchInput");
-  if (sampleSearchInput) {
-    sampleSearchInput.addEventListener("input", (e) => {
-      sampleSearchQuery = e.target.value;
-      renderProducts();
-    });
-  }
-}
+      if (sampleSearchInput) {
+        sampleSearchInput.addEventListener("input", (e) => {
+          sampleSearchQuery = e.target.value;
+          renderProducts();
+        });
+      }
     
       if (tabMainProduct && tabLimitedEdition && tabPlugins && tabSamplePasaran) {
         tabMainProduct.addEventListener("click", () => {
