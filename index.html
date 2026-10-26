@@ -242,16 +242,16 @@
         <!-- BUTTON KATEGORI | ADMIN CONTROL -->
         <div class="border border-zinc-800 rounded-2xl p-5 space-y-4">
           <div class="flex flex-wrap items-center gap-2 border-b border-zinc-800 pb-3">
-            <button id="tabMainProduct" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white text-black transition">
+            <button id="tabMainProduct" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white text-black transition cursor-pointer">
               Produk Utama
             </button>
-            <button id="tabLimitedEdition" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white transition">
+            <button id="tabLimitedEdition" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white transition cursor-pointer">
               Tools
             </button>
-            <button id="tabPlugins" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-purple-400 border border-zinc-800 hover:text-white transition">
+            <button id="tabPlugins" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-purple-400 border border-zinc-800 hover:text-white transition cursor-pointer">
               Plugins
             </button>
-            <button id="tabSamplePasaran" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-emerald-400 border border-zinc-800 hover:text-white transition">
+            <button id="tabSamplePasaran" type="button" class="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-emerald-400 border border-zinc-800 hover:text-white transition cursor-pointer">
               Sample Pasar-an
             </button>
           </div>
@@ -278,9 +278,30 @@
               </select>
             </div>
 
+            <!-- KATEGORI KHUSUS SAMPLES -->
+            <div id="sampleCategoryWrapper" class="hidden">
+              <label class="block text-zinc-400 font-mono mb-1">Kategori Sample *</label>
+              <select id="inputSampleCategory" class="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-white">
+                <option value="Vocal Drop">Vocal Drop</option>
+                <option value="Lead">Lead</option>
+                <option value="Melody">Melody</option>
+                <option value="Kick">Kick</option>
+                <option value="Clap">Clap</option>
+                <option value="Bass">Bass</option>
+                <option value="Chop">Chop</option>
+                <option value="FX">FX</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
             <div id="sizeWrapper">
               <label class="block text-zinc-400 font-mono mb-1">Ukuran File *</label>
               <input type="text" id="inputSize" value=" MB" class="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-white">
+            </div>
+
+            <div class="sm:col-span-2 hidden" id="audioWrapper">
+              <label class="block text-zinc-400 font-mono mb-1">URL Audio Preview (Opsional)</label>
+              <input type="url" id="inputAudioUrl" placeholder="https://domain.com/sample.mp3" class="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-white">
             </div>
     
             <div class="sm:col-span-2" id="urlWrapper">
@@ -294,10 +315,10 @@
             </div>
 
             <div class="sm:col-span-2 flex justify-end gap-2 pt-2">
-              <button type="button" id="btnCancelEdit" class="hidden px-4 py-2 bg-zinc-800 text-zinc-300 text-xs font-mono rounded-xl hover:bg-zinc-700">
+              <button type="button" id="btnCancelEdit" class="hidden px-4 py-2 bg-zinc-800 text-zinc-300 text-xs font-mono rounded-xl hover:bg-zinc-700 cursor-pointer">
                 Batal Edit
               </button>
-              <button type="submit" class="px-6 py-2.5 bg-white text-black text-xs font-bold font-mono rounded-xl hover:bg-zinc-200 transition">
+              <button type="submit" class="px-6 py-2.5 bg-white text-black text-xs font-bold font-mono rounded-xl hover:bg-zinc-200 transition cursor-pointer">
                 Upload Produk
               </button>
             </div>
@@ -405,22 +426,58 @@
 
     <!-- BAGIAN SAMPLE PASARAN -->
     <section id="samplePasaranSection" class="mb-14">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-zinc-800/80 pb-3">
-        <div class="flex items-center gap-2.5">
-          <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">WAV</span>
-          <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Samples</h2>
-          <span class="text-xs font-mono text-zinc-500 ml-1" id="sampleCountDisplay">0 Item</span>
+      <div class="flex flex-col gap-4 mb-4 border-b border-zinc-800/80 pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">WAV</span>
+            <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Samples</h2>
+            <span class="text-xs font-mono text-zinc-500 ml-1" id="sampleCountDisplay">0 Item</span>
+          </div>
+
+          <!-- INPUT PENCARIAN SAMPLES -->
+          <div class="relative w-full sm:w-64">
+            <input 
+              type="text" 
+              id="sampleSearchInput" 
+              placeholder="Cari samples..." 
+              class="w-full pl-8 pr-3 py-1.5 bg-zinc-900/90 border border-zinc-800 rounded-xl text-white text-xs font-mono focus:outline-none focus:border-emerald-500/50 transition-colors"
+            >
+            <i data-lucide="search" class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5"></i>
+          </div>
         </div>
 
-        <!-- INPUT PENCARIAN SAMPLES -->
-        <div class="relative w-full sm:w-64">
-          <input 
-            type="text" 
-            id="sampleSearchInput" 
-            placeholder="Cari samples..." 
-            class="w-full pl-8 pr-3 py-1.5 bg-zinc-900/90 border border-zinc-800 rounded-xl text-white text-xs font-mono focus:outline-none focus:border-emerald-500/50 transition-colors"
-          >
-          <i data-lucide="search" class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5"></i>
+        <!-- FILTER KATEGORI SAMPLES -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 custom-scrollbar" id="sampleCategoryFilter">
+          <button data-sample-cat="ALL" class="sample-filter-btn active px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-white text-black shadow-lg shadow-white/10 cursor-pointer flex-shrink-0">
+            SEMUA (<span id="sampleCountAll">0</span>)
+          </button>
+          <button data-sample-cat="Vocal Drop" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Vocal Drop (<span id="sampleCountVocalDrop">0</span>)
+          </button>
+          <button data-sample-cat="Lead" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Lead (<span id="sampleCountLead">0</span>)
+          </button>
+          <button data-sample-cat="Melody" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Melody (<span id="sampleCountMelody">0</span>)
+          </button>
+          <button data-sample-cat="Kick" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Kick (<span id="sampleCountKick">0</span>)
+          </button>
+          <button data-sample-cat="Clap" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Clap (<span id="sampleCountClap">0</span>)
+          </button>
+          <button data-sample-cat="Bass" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Bass (<span id="sampleCountBass">0</span>)
+          </button>
+          <button data-sample-cat="Chop" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Chop (<span id="sampleCountChop">0</span>)
+          </button>
+          <button data-sample-cat="FX" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            FX (<span id="sampleCountFX">0</span>)
+          </button>
+          <button data-sample-cat="Other" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
+            Other (<span id="sampleCountOther">0</span>)
+          </button>
         </div>
       </div>
 
@@ -641,6 +698,7 @@
     let projectsData = [];
     let cartData = [];
     let currentCategory = "ALL";
+    let currentSampleCategory = "ALL";
     let searchQuery = "";
     let sampleSearchQuery = "";
     let isAdminUnlocked = false;
@@ -683,8 +741,8 @@
     let productGrid, emptyState, searchInput, clearSearch, categoryButtons, totalCountDisplay;
     let limitedGrid, limitedEmptyState, limitedCountDisplay;
     let pluginsGrid, pluginsEmptyState, pluginsCountDisplay;
-    let sampleGrid, sampleEmptyState, sampleCountDisplay;
-    let tabMainProduct, tabLimitedEdition, tabPlugins, tabSamplePasaran, categoryWrapper, sizeWrapper, audioWrapper, coverWrapper, inputProductType, inputAudioUrl;
+    let sampleGrid, sampleEmptyState, sampleCountDisplay, sampleCategoryButtons;
+    let tabMainProduct, tabLimitedEdition, tabPlugins, tabSamplePasaran, categoryWrapper, sampleCategoryWrapper, sizeWrapper, audioWrapper, coverWrapper, inputProductType, inputAudioUrl, inputSampleCategory;
     let btnOpenCart, btnCloseCart, cartDrawer, cartBadge, cartItemsList, cartEmptyState, cartItemCount, cartTotalSummary, cartTotalSize, btnClearCart, btnModalAddToCart;
     let productModal, btnModalClose, modalImg, modalCategory, modalSize, modalTitle, modalCategoryLabel, modalType, modalDownloadLink, btnShareLink, shareBtnText, toast, toastMsg, modalAudioSection, modalAudioPlayer;
     let btnToggleAdmin, adminSection, btnCloseAdmin, adminAuthBox, adminPassInput, btnUnlockAdmin, adminAuthMsg, adminContent;
@@ -702,7 +760,7 @@
       if (!project) return;
 
       activeModalProject = project;
-      const displayCategory = project.isLimited ? "Tools" : project.isPlugin ? "Plugin" : project.isSample ? "Sample Pasar-an" : (project.category === "FL STUDIO" ? "FLP" : project.category === "FL MOBILE" ? "FLM" : project.category);
+      const displayCategory = project.isLimited ? "Tools" : project.isPlugin ? "Plugin" : project.isSample ? `Sample (${project.category || 'WAV'})` : (project.category === "FL STUDIO" ? "FLP" : project.category === "FL MOBILE" ? "FLM" : project.category);
 
       if (modalImg) modalImg.src = project.isSample ? defaultWaveAudioSvg : (project.coverArt ? project.coverArt : fallbackImageSvg);
       if (modalCategory) modalCategory.textContent = displayCategory;
@@ -763,6 +821,7 @@
       sampleGrid = document.getElementById("sampleGrid");
       sampleEmptyState = document.getElementById("sampleEmptyState");
       sampleCountDisplay = document.getElementById("sampleCountDisplay");
+      sampleCategoryButtons = document.querySelectorAll("#sampleCategoryFilter button");
 
       tabMainProduct = document.getElementById("tabMainProduct");
       tabLimitedEdition = document.getElementById("tabLimitedEdition");
@@ -770,11 +829,13 @@
       tabSamplePasaran = document.getElementById("tabSamplePasaran");
       
       categoryWrapper = document.getElementById("categoryWrapper");
+      sampleCategoryWrapper = document.getElementById("sampleCategoryWrapper");
       sizeWrapper = document.getElementById("sizeWrapper");
       audioWrapper = document.getElementById("audioWrapper");
       coverWrapper = document.getElementById("coverWrapper");
       inputProductType = document.getElementById("inputProductType");
       inputAudioUrl = document.getElementById("inputAudioUrl");
+      inputSampleCategory = document.getElementById("inputSampleCategory");
 
       btnOpenCart = document.getElementById("btnOpenCart");
       btnCloseCart = document.getElementById("btnCloseCart");
@@ -866,6 +927,7 @@
           activeAdminTab = "MAIN";
           updateTabButtonsUI(tabMainProduct);
           if (categoryWrapper) categoryWrapper.classList.remove("hidden");
+          if (sampleCategoryWrapper) sampleCategoryWrapper.classList.add("hidden");
           if (sizeWrapper) sizeWrapper.classList.remove("hidden");
           if (audioWrapper) audioWrapper.classList.add("hidden");
           if (coverWrapper) coverWrapper.classList.remove("hidden");
@@ -878,6 +940,7 @@
           activeAdminTab = "LIMITED";
           updateTabButtonsUI(tabLimitedEdition);
           if (categoryWrapper) categoryWrapper.classList.add("hidden");
+          if (sampleCategoryWrapper) sampleCategoryWrapper.classList.add("hidden");
           if (sizeWrapper) sizeWrapper.classList.add("hidden");
           if (audioWrapper) audioWrapper.classList.add("hidden");
           if (coverWrapper) coverWrapper.classList.remove("hidden");
@@ -890,6 +953,7 @@
           activeAdminTab = "PLUGINS";
           updateTabButtonsUI(tabPlugins);
           if (categoryWrapper) categoryWrapper.classList.add("hidden");
+          if (sampleCategoryWrapper) sampleCategoryWrapper.classList.add("hidden");
           if (sizeWrapper) sizeWrapper.classList.add("hidden");
           if (audioWrapper) audioWrapper.classList.add("hidden");
           if (coverWrapper) coverWrapper.classList.remove("hidden");
@@ -902,6 +966,7 @@
           activeAdminTab = "SAMPLE";
           updateTabButtonsUI(tabSamplePasaran);
           if (categoryWrapper) categoryWrapper.classList.add("hidden");
+          if (sampleCategoryWrapper) sampleCategoryWrapper.classList.remove("hidden");
           if (sizeWrapper) sizeWrapper.classList.add("hidden");
           if (audioWrapper) audioWrapper.classList.remove("hidden");
           if (coverWrapper) coverWrapper.classList.add("hidden");
@@ -921,6 +986,20 @@
           btn.classList.add("bg-white", "text-black", "shadow-lg", "shadow-white/10");
 
           currentCategory = btn.getAttribute("data-category");
+          renderProducts();
+        });
+      });
+
+      sampleCategoryButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          sampleCategoryButtons.forEach((b) => {
+            b.classList.remove("bg-white", "text-black", "shadow-lg", "shadow-white/10");
+            b.classList.add("bg-zinc-900", "text-zinc-400", "border", "border-zinc-800");
+          });
+          btn.classList.remove("bg-zinc-900", "text-zinc-400", "border", "border-zinc-800");
+          btn.classList.add("bg-white", "text-black", "shadow-lg", "shadow-white/10");
+
+          currentSampleCategory = btn.getAttribute("data-sample-cat");
           renderProducts();
         });
       });
@@ -1003,7 +1082,16 @@
           const id = editProjectId ? editProjectId.value : "";
           const type = activeAdminTab;
           const title = inputTitle ? inputTitle.value.trim() : "";
-          const category = type === "MAIN" ? (inputCategory ? inputCategory.value : "FL STUDIO") : type;
+          
+          let category = "FL STUDIO";
+          if (type === "MAIN") {
+            category = inputCategory ? inputCategory.value : "FL STUDIO";
+          } else if (type === "SAMPLE") {
+            category = inputSampleCategory ? inputSampleCategory.value : "Vocal Drop";
+          } else {
+            category = type;
+          }
+
           const size = (type === "PLUGINS" || type === "LIMITED" || type === "SAMPLE") ? "" : (inputSize ? inputSize.value.trim() : "");
           const downloadUrl = inputUrl ? inputUrl.value.trim() : "";
           const audioUrl = type === "SAMPLE" ? (inputAudioUrl ? inputAudioUrl.value.trim() : "") : "";
@@ -1100,9 +1188,9 @@
     function updateTabButtonsUI(activeTab) {
       [tabMainProduct, tabLimitedEdition, tabPlugins, tabSamplePasaran].forEach(tab => {
         if (!tab) return;
-        tab.className = "px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white transition";
+        tab.className = "px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white transition cursor-pointer";
       });
-      activeTab.className = "px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white text-black transition";
+      activeTab.className = "px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white text-black transition cursor-pointer";
     }
 
     function calculateTotalCartSize() {
@@ -1293,7 +1381,7 @@
       cartItemsList.innerHTML = "";
       cartData.forEach((item) => {
         const imageSrc = item.coverArt ? item.coverArt : (item.isSample ? defaultWaveAudioSvg : fallbackImageSvg);
-        const displayCategory = item.isLimited ? "Tools" : item.isPlugin ? "Plugins" : item.isSample ? "Sample" : (item.category === "FL STUDIO" ? "FLP" : item.category === "FL MOBILE" ? "FLM" : item.category);
+        const displayCategory = item.isLimited ? "Tools" : item.isPlugin ? "Plugins" : item.isSample ? `Sample (${item.category || 'WAV'})` : (item.category === "FL STUDIO" ? "FLP" : item.category === "FL MOBILE" ? "FLM" : item.category);
 
         const cartItemEl = document.createElement("div");
         cartItemEl.className = "flex items-center justify-between p-3 bg-zinc-900/90 border border-zinc-800/80 rounded-2xl gap-3";
@@ -1341,6 +1429,20 @@
       if (pluginsCountDisplay) pluginsCountDisplay.textContent = `${pluginProducts.length} Item`;
       if (sampleCountDisplay) sampleCountDisplay.textContent = `${sampleProducts.length} Item`;
       if (adminTableCount) adminTableCount.textContent = projectsData.length;
+
+      // Hitung Kategori Samples
+      const sampleCats = ["Vocal Drop", "Lead", "Melody", "Kick", "Clap", "Bass", "Chop", "FX", "Other"];
+      const sAll = document.getElementById("sampleCountAll");
+      if (sAll) sAll.textContent = sampleProducts.length;
+
+      sampleCats.forEach(cat => {
+        const catId = "sampleCount" + cat.replace(/\s+/g, '');
+        const el = document.getElementById(catId);
+        if (el) {
+          const count = sampleProducts.filter(p => p.category === cat).length;
+          el.textContent = count;
+        }
+      });
     }
 
     function refreshIcons() {
@@ -1425,8 +1527,9 @@
       // 3. SAMPLE PASAR-AN
       const sampleItems = projectsData.filter((p) => {
         const isSample = p.isSample;
+        const matchesCategory = currentSampleCategory === "ALL" || p.category === currentSampleCategory;
         const matchesSearch = p.title.toLowerCase().includes(sampleSearchQuery.toLowerCase());
-        return isSample && matchesSearch;
+        return isSample && matchesCategory && matchesSearch;
       });
 
       sampleGrid.innerHTML = "";
@@ -1443,7 +1546,7 @@
               <div class="overflow-hidden pr-3">
                 <h3 class="font-bold text-xs sm:text-sm text-white group-hover:text-emerald-400 transition-colors truncate mb-1">${project.title}</h3>
                 <div class="flex items-center gap-2">
-                  <span class="px-2 py-0.5 bg-purple-500/15 text-purple-400 border border-purple-500/30 text-[9px] font-mono font-bold rounded flex items-center gap-1">
+                  <span class="px-2 py-0.5 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] font-mono font-bold rounded flex items-center gap-1">
                     <i data-lucide="audio-lines" class="w-3 h-3"></i> WAV
                   </span>
                   <span class="text-[11px] font-mono text-zinc-400 truncate">${project.category || 'SAMPLE'}</span>
@@ -1583,7 +1686,7 @@
           : item.isPlugin 
           ? "Plugins" 
           : item.isSample 
-          ? "Sample Pasar-an" 
+          ? `Sample (${item.category || 'WAV'})` 
           : (item.category === "FL STUDIO" ? "FLP" : item.category === "FL MOBILE" ? "FLM" : item.category);
 
         const tr = document.createElement("tr");
@@ -1626,6 +1729,7 @@
       if (editProjectId) editProjectId.value = item.id;
       if (inputTitle) inputTitle.value = item.title;
       if (inputCategory && !item.isLimited && !item.isPlugin && !item.isSample) inputCategory.value = item.category;
+      if (inputSampleCategory && item.isSample) inputSampleCategory.value = item.category || "Vocal Drop";
       if (inputSize) inputSize.value = item.size || "";
       if (inputUrl) inputUrl.value = item.downloadUrl;
       if (inputAudioUrl) inputAudioUrl.value = item.audioUrl || "";
