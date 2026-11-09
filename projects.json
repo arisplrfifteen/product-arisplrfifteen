@@ -1,5 +1,18 @@
 [
   {
+    "id": "proj_1794189685177",
+    "title": "KORG Triton Extreme",
+    "category": "PLUGINS",
+    "size": "",
+    "downloadUrl": "https://www.mediafire.com/file/61cam204znapc8h/KORG_TRITON_Extreme_v1.0.2.zip/file",
+    "audioUrl": "",
+    "clicks": 0,
+    "isLimited": false,
+    "isPlugin": true,
+    "isSample": false,
+    "coverArt": "https://lh3.googleusercontent.com/d/1L0z8DNth2j3noiJ40Lls1WTgWg6zvgUT"
+  },
+  {
     "id": "proj_1794189635792",
     "title": "VoxGuru [Mixing]",
     "category": "PLUGINS",
