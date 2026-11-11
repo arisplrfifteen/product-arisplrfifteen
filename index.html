@@ -138,10 +138,9 @@
     </div>
   </header>
 
-  <!-- POP UP PROMOSI / INFORMASI OTOMATIS (GLOBAL DI SEMUA PERANGKAT) -->
+  <!-- POP UP PROMOSI / INFORMASI OTOMATIS -->
   <div id="promoModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-md w-full p-5 sm:p-6 space-y-4 shadow-2xl relative">
-      
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
         <div class="flex items-center gap-2">
           <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
@@ -156,11 +155,8 @@
         <div id="promoImgWrapper" class="relative w-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 aspect-video hidden">
           <img id="promoImg" src="" class="w-full h-full object-cover">
         </div>
-
         <h2 id="promoTitle" class="text-base sm:text-lg font-extrabold text-white leading-snug"></h2>
-        
         <p id="promoDesc" class="text-xs text-zinc-300 leading-relaxed font-sans whitespace-pre-line"></p>
-
         <div id="promoActionWrapper" class="pt-2 hidden">
           <a 
             id="promoActionBtn" 
@@ -174,7 +170,6 @@
           </a>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -267,6 +262,50 @@
             </div>
           </form>
           <p id="promoSaveStatus" class="text-xs font-mono mt-1 hidden"></p>
+        </div>
+
+        <!-- KELOLA KATEGORI SAMPLE PASAR-AN -->
+        <div id="sampleCategoryManagerBox" class="bg-zinc-900/60 border border-emerald-500/30 rounded-2xl p-5 space-y-4 hidden">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="folder-cog" class="w-4 h-4 text-emerald-400"></i>
+              <span>Kelola Kategori Sample Pasar-an</span>
+            </h3>
+            <span class="text-[10px] font-mono px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">WAV</span>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex gap-2">
+              <input type="hidden" id="editSampleCatOriginal" value="">
+              <input 
+                type="text" 
+                id="inputNewSampleCategory" 
+                placeholder="Nama Kategori Baru (Contoh: Synth, Lead, dll)" 
+                class="w-full px-3 py-2 bg-black border border-zinc-800 rounded-xl font-mono text-white text-xs focus:outline-none focus:border-emerald-500"
+              >
+              <button 
+                type="button" 
+                id="btnSaveSampleCategory" 
+                class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-bold text-xs rounded-xl transition flex-shrink-0 cursor-pointer"
+              >
+                Tambah
+              </button>
+              <button 
+                type="button" 
+                id="btnCancelSampleCatEdit" 
+                class="hidden px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs rounded-xl transition flex-shrink-0 cursor-pointer"
+              >
+                Batal
+              </button>
+            </div>
+
+            <!-- List Kategori Sample Saat Ini -->
+            <div class="border border-zinc-800 rounded-xl overflow-hidden bg-black/40">
+              <div class="max-h-36 overflow-y-auto custom-scrollbar p-2 flex flex-wrap gap-2" id="sampleCategoryListBadges">
+                <!-- Badges injected via JS -->
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- SYNC -->
@@ -364,15 +403,7 @@
             <div id="sampleCategoryWrapper" class="hidden">
               <label class="block text-zinc-400 font-mono mb-1">Kategori Sample *</label>
               <select id="inputSampleCategory" class="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-white">
-                <option value="Vocal Drop">Vocal Drop</option>
-                <option value="Lead">Lead</option>
-                <option value="Melody">Melody</option>
-                <option value="Kick">Kick</option>
-                <option value="Clap">Clap</option>
-                <option value="Bass">Bass</option>
-                <option value="Chop">Chop</option>
-                <option value="FX">FX</option>
-                <option value="Other">Other</option>
+                <!-- Options injected via JS -->
               </select>
             </div>
 
@@ -511,7 +542,7 @@
       <div class="flex flex-col gap-4 mb-4 border-b border-zinc-800/80 pb-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="flex items-center gap-2.5">
-            <span class="px-2.5 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">WAV</span>
+            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-extrabold rounded-full tracking-wider uppercase">WAV</span>
             <h2 class="text-base sm:text-lg font-extrabold text-white tracking-tight">Samples</h2>
             <span class="text-xs font-mono text-zinc-500 ml-1" id="sampleCountDisplay">0 samples</span>
           </div>
@@ -530,36 +561,7 @@
 
         <!-- FILTER KATEGORI SAMPLES -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 custom-scrollbar" id="sampleCategoryFilter">
-          <button data-sample-cat="ALL" class="sample-filter-btn active px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-white text-black shadow-lg shadow-white/10 cursor-pointer flex-shrink-0">
-            SEMUA (<span id="sampleCountAll">0</span>)
-          </button>
-          <button data-sample-cat="Vocal Drop" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Vocal Drop (<span id="sampleCountVocalDrop">0</span>)
-          </button>
-          <button data-sample-cat="Lead" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Lead (<span id="sampleCountLead">0</span>)
-          </button>
-          <button data-sample-cat="Melody" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Melody (<span id="sampleCountMelody">0</span>)
-          </button>
-          <button data-sample-cat="Kick" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Kick (<span id="sampleCountKick">0</span>)
-          </button>
-          <button data-sample-cat="Clap" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Clap (<span id="sampleCountClap">0</span>)
-          </button>
-          <button data-sample-cat="Bass" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Bass (<span id="sampleCountBass">0</span>)
-          </button>
-          <button data-sample-cat="Chop" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Chop (<span id="sampleCountChop">0</span>)
-          </button>
-          <button data-sample-cat="FX" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            FX (<span id="sampleCountFX">0</span>)
-          </button>
-          <button data-sample-cat="Other" class="sample-filter-btn px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer flex-shrink-0">
-            Other (<span id="sampleCountOther">0</span>)
-          </button>
+          <!-- Buttons rendered dynamically -->
         </div>
       </div>
 
@@ -574,11 +576,9 @@
     <!-- FREE DOWNLOADS -->
     <section>
       <div class="flex flex-col gap-4 mb-6" id="mainProductsHeader">
-        <!-- Judul & Tombol Kategori -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Free Downloads</h2>
           
-          <!-- Tombol Kategori (Semua, FLP, FLM) -->
           <div class="flex flex-wrap items-center gap-2" id="categoryFilter">
             <button 
               data-category="ALL" 
@@ -601,7 +601,6 @@
           </div>
         </div>
 
-        <!-- Kolom Pencarian Full Lebar di Mobile -->
         <div class="relative w-full">
           <input 
             type="text" 
@@ -616,10 +615,8 @@
         </div>
       </div>
 
-      <!-- KONTAINER SCROLLABLE FREE DOWNLOADS -->
       <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar"></div>
 
-      <!-- EMPTY STATE -->
       <div id="emptyState" class="hidden text-center py-16 px-4">
         <div class="w-16 h-16 mx-auto mb-4 text-zinc-600 flex items-center justify-center rounded-full bg-zinc-900 border border-zinc-800">
           <i data-lucide="search-x" class="w-8 h-8"></i>
@@ -647,7 +644,7 @@
 
       <div class="space-y-4">
         <div id="modalImgWrapper" class="relative w-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 aspect-square">
-          <img id="modalImg" src="" class="w-full h-full object-cover" onerror="this.src=fallbackImageSvg">
+          <img id="modalImg" src="" class="w-full h-full object-cover">
           <div class="absolute top-3 left-3">
             <span id="modalCategory" class="px-3 py-1 bg-black/80 backdrop-blur-md text-xs font-mono font-bold tracking-wider text-white rounded-full border border-white/20"></span>
           </div>
@@ -665,13 +662,11 @@
           </p>
         </div>
 
-        <!-- AUDIO PLAYER KHUSUS SAMPLE -->
         <div id="modalAudioSection" class="hidden space-y-2 bg-zinc-900/60 p-3 rounded-xl border border-zinc-800">
           <p class="text-[11px] font-mono text-zinc-400">Preview Audio:</p>
           <audio id="modalAudioPlayer" controls class="w-full h-9"></audio>
         </div>
 
-        <!-- TOMBOL AKSI MODAL -->
         <div class="flex items-center gap-2 pt-2">
           <button 
             id="btnModalAddToCart" 
@@ -753,7 +748,7 @@
     </div>
   </div>
 
-  <!-- LINK PRODUK BERHASIL DISALIN! -->
+  <!-- TOAST -->
   <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden bg-white text-black px-5 py-2.5 rounded-full shadow-2xl font-mono text-xs font-bold flex items-center gap-2">
     <i data-lucide="check-circle-2" class="w-4 h-4 text-black"></i>
     <span id="toastMsg">Link produk berhasil disalin!</span>
@@ -762,11 +757,7 @@
   <!-- FOOTER -->
   <footer class="border-t border-zinc-900 bg-zinc-950/80 pt-12 pb-8 mt-16 text-xs text-zinc-400 font-sans">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
-      
-      <!-- KOLOM ATAS -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        
-        <!-- KOLOM 1: BRAND & INFO -->
         <div class="space-y-3">
           <div class="flex items-center gap-2">
             <img src="icon2.png" alt="Logo" class="h-8 w-auto object-contain" onerror="this.src='https://placehold.co/120x40/111/fff?text=FLIX'">
@@ -780,7 +771,6 @@
           </p>
         </div>
 
-        <!-- KOLOM 2: SHOP -->
         <div class="space-y-3">
           <h4 class="font-bold text-white text-xs uppercase tracking-wider">Shop</h4>
           <ul class="space-y-2 text-zinc-400">
@@ -789,7 +779,6 @@
           </ul>
         </div>
 
-        <!-- KOLOM 3: FREEBIES -->
         <div class="space-y-3">
           <h4 class="font-bold text-white text-xs uppercase tracking-wider">Freebies</h4>
           <ul class="space-y-2 text-zinc-400">
@@ -800,7 +789,6 @@
           </ul>
         </div>
 
-        <!-- KOLOM 4: MEDIA SOSIAL -->
         <div class="space-y-3">
           <h4 class="font-bold text-white text-xs uppercase tracking-wider">Social Media</h4>
           <ul class="space-y-2 text-zinc-400">
@@ -810,10 +798,8 @@
             <li><a href="https://soundcloud.com/arisaepulr15" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">SoundCloud</a></li>
           </ul>
         </div>
-
       </div>
 
-      <!-- GARIS PEMISAH & BOTTOM BAR -->
       <div class="border-t border-zinc-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-500 text-[11px]">
         <div class="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
           <a href="#" class="hover:text-zinc-300 transition">Privacy Policy</a>
@@ -823,31 +809,20 @@
           <a href="#" class="hover:text-zinc-300 transition">Support</a>
         </div>
 
-        <!-- SOCIAL ICONS AT BOTTOM -->
         <div class="flex items-center gap-3 text-zinc-400">
           <span class="mr-1 text-zinc-500 hidden sm:inline">Follow Me:</span>
-          
-          <!-- TikTok -->
           <a href="https://www.tiktok.com/@arisplrfifteen" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition p-1" title="TikTok">
             <img src="tiktok.png" alt="TikTok" class="w-4 h-4 object-contain" onerror="this.src='https://placehold.co/16x16/111/fff?text=TT'">
           </a>
-
-          <!-- Instagram -->
           <a href="https://www.instagram.com/aarisplrhmn/" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition p-1" title="Instagram">
             <img src="instagram.png" alt="Instagram" class="w-4 h-4 object-contain" onerror="this.src='https://placehold.co/16x16/111/fff?text=IG'">
           </a>
-
-          <!-- YouTube -->
           <a href="https://www.youtube.com/@arififteenprod" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition p-1" title="YouTube">
             <img src="youtube.png" alt="YouTube" class="w-4 h-4 object-contain" onerror="this.src='https://placehold.co/16x16/111/fff?text=YT'">
           </a>
-
-          <!-- SoundCloud -->
           <a href="https://soundcloud.com/arisaepulr15" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition p-1" title="SoundCloud">
             <img src="soundcloud.png" alt="SoundCloud" class="w-4 h-4 object-contain" onerror="this.src='https://placehold.co/16x16/111/fff?text=SC'">
           </a>
-
-          <!-- Store / SociaBuzz -->
           <a href="https://sociabuzz.com/arisplrfifteen/shop" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition p-1" title="Store">
             <img src="sociabuzz.png" alt="SociaBuzz" class="w-4 h-4 object-contain" onerror="this.src='https://placehold.co/16x16/111/fff?text=SB'">
           </a>
@@ -856,12 +831,11 @@
     </div>
   </footer>
 
-  <!-- Load SDK Firebase versi Compat -->
+  <!-- Load SDK Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <script>
-    // 1. Konfigurasi Firebase Anda
     const firebaseConfig = {
       apiKey: "AIzaSyAitMXK4JVpAqthuior-h6iCSoAMIXLY94",
       authDomain: "arisplrfifteen-official-store.firebaseapp.com",
@@ -873,13 +847,11 @@
       measurementId: "G-63BERQ4T7H"
     };
 
-    // 2. Inisialisasi Firebase
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
     const database = firebase.database();
 
-    // 3. Jalankan Penghitung Pengunjung saat halaman selesai dimuat
     async function initVisitorCounter() {
       const visitorDisplay = document.getElementById("visitorCountDisplay");
       const visitorRef = database.ref("visitorCount");
@@ -903,36 +875,7 @@
 
   <!-- JAVASCRIPT UTAMA -->
   <script>
-    const defaultProjects = [];
-
-    const defaultGhConfig = {
-      token: "",
-      repo: "arisplrfifteen/product-arisplrfifteen",
-      branch: "main",
-      path: "projects.json"
-    };
-
-    let projectsData = [];
-    let cartData = [];
-    let currentCategory = "ALL";
-    let currentSampleCategory = "ALL";
-    let searchQuery = "";
-    let sampleSearchQuery = "";
-    let isAdminUnlocked = false;
-    let activeModalProject = null;
-    let activeAdminTab = "MAIN";
-    let adminSearchQuery = "";
-    let adminCurrentCat = "ALL";
-
-    let promoConfig = {
-      enabled: false,
-      title: "",
-      desc: "",
-      imgUrl: "",
-      btnText: "",
-      btnUrl: ""
-    };
-
+    // DECLARE ALL FALLBACK SVGS AT THE VERY TOP TO PREVENT REFERENCE ERRORS
     const defaultWaveAudioSvg = "data:image/svg+xml;utf8," + encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
         <rect width="400" height="400" fill="#09090b"/>
@@ -962,10 +905,43 @@
       </svg>
     `);
 
+    const defaultProjects = [];
+
+    const defaultGhConfig = {
+      token: "",
+      repo: "arisplrfifteen/product-arisplrfifteen",
+      branch: "main",
+      path: "projects.json"
+    };
+
+    let projectsData = [];
+    let cartData = [];
+    let currentCategory = "ALL";
+    let currentSampleCategory = "ALL";
+    let searchQuery = "";
+    let sampleSearchQuery = "";
+    let isAdminUnlocked = false;
+    let activeModalProject = null;
+    let activeAdminTab = "MAIN";
+    let adminSearchQuery = "";
+    let adminCurrentCat = "ALL";
+
+    // Dynamic Sample Categories state
+    let sampleCategories = ["Vocal Drop", "Lead", "Melody", "Kick", "Clap", "Bass", "Chop", "FX", "Other"];
+
+    let promoConfig = {
+      enabled: false,
+      title: "",
+      desc: "",
+      imgUrl: "",
+      btnText: "",
+      btnUrl: ""
+    };
+
     let productGrid, emptyState, searchInput, clearSearch, categoryButtons, totalCountDisplay;
     let limitedGrid, limitedEmptyState, limitedCountDisplay;
     let pluginsGrid, pluginsEmptyState, pluginsCountDisplay;
-    let sampleGrid, sampleEmptyState, sampleCountDisplay, sampleCategoryButtons;
+    let sampleGrid, sampleEmptyState, sampleCountDisplay;
     let tabMainProduct, tabLimitedEdition, tabPlugins, tabSamplePasaran, categoryWrapper, sampleCategoryWrapper, sizeWrapper, audioWrapper, coverWrapper, inputProductType, inputAudioUrl, inputSampleCategory;
     let btnOpenCart, btnCloseCart, cartDrawer, cartBadge, cartItemsList, cartEmptyState, cartItemCount, cartTotalSummary, cartTotalSize, btnClearCart, btnModalAddToCart;
     let productModal, btnModalClose, modalImg, modalCategory, modalSize, modalTitle, modalCategoryLabel, modalType, modalDownloadLink, btnShareLink, shareBtnText, toast, toastMsg, modalAudioSection, modalAudioPlayer;
@@ -975,6 +951,8 @@
 
     let promoModal, btnClosePromo, promoImgWrapper, promoImg, promoTitle, promoDesc, promoActionWrapper, promoActionBtn, promoBtnText;
     let promoForm, promoStatusToggle, inputPromoTitle, inputPromoDesc, inputPromoImg, inputPromoBtnText, inputPromoBtnUrl, btnPreviewPromo, promoSaveStatus;
+
+    let sampleCategoryManagerBox, inputNewSampleCategory, btnSaveSampleCategory, btnCancelSampleCatEdit, editSampleCatOriginal, sampleCategoryListBadges;
 
     function trackAndOpenModal(idOrObject) {
       const id = (typeof idOrObject === 'object' && idOrObject !== null) ? idOrObject.id : idOrObject;
@@ -1065,7 +1043,6 @@
       document.body.classList.remove("overflow-hidden");
     }
 
-    // AMBIL DATA PROMO DARI FIREBASE (YANG AKAN MUNCUL DI SEMUA PERANGKAT)
     function loadPromoConfig() {
       const promoRef = database.ref("promoConfig");
       promoRef.on("value", (snapshot) => {
@@ -1081,13 +1058,28 @@
         if (inputPromoBtnText) inputPromoBtnText.value = promoConfig.btnText || "";
         if (inputPromoBtnUrl) inputPromoBtnUrl.value = promoConfig.btnUrl || "";
 
-        // JIKA AKTIF, MUNCULKAN OTOMATIS SAAT HALAMAN DIBUKA DI PERANGKAT APA PUN
         if (promoConfig.enabled && promoConfig.title) {
           setTimeout(() => {
             openPromoModal();
           }, 800);
         }
       });
+    }
+
+    function loadSampleCategories() {
+      const saved = localStorage.getItem("arisplrfifteen_sample_categories");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            sampleCategories = parsed;
+          }
+        } catch(e) {}
+      }
+    }
+
+    function saveSampleCategories() {
+      localStorage.setItem("arisplrfifteen_sample_categories", JSON.stringify(sampleCategories));
     }
 
     function initDomElements() {
@@ -1109,7 +1101,6 @@
       sampleGrid = document.getElementById("sampleGrid");
       sampleEmptyState = document.getElementById("sampleEmptyState");
       sampleCountDisplay = document.getElementById("sampleCountDisplay");
-      sampleCategoryButtons = document.querySelectorAll("#sampleCategoryFilter button");
 
       tabMainProduct = document.getElementById("tabMainProduct");
       tabLimitedEdition = document.getElementById("tabLimitedEdition");
@@ -1202,6 +1193,13 @@
       inputPromoBtnUrl = document.getElementById("inputPromoBtnUrl");
       btnPreviewPromo = document.getElementById("btnPreviewPromo");
       promoSaveStatus = document.getElementById("promoSaveStatus");
+
+      sampleCategoryManagerBox = document.getElementById("sampleCategoryManagerBox");
+      inputNewSampleCategory = document.getElementById("inputNewSampleCategory");
+      btnSaveSampleCategory = document.getElementById("btnSaveSampleCategory");
+      btnCancelSampleCatEdit = document.getElementById("btnCancelSampleCatEdit");
+      editSampleCatOriginal = document.getElementById("editSampleCatOriginal");
+      sampleCategoryListBadges = document.getElementById("sampleCategoryListBadges");
     }
 
     function setupEventListeners() {
@@ -1220,7 +1218,6 @@
         });
       }
 
-      // SIMPAN DATA PROMO KE FIREBASE AGAR MUNCUL DI SEMUA PERANGKAT
       if (promoForm) {
         promoForm.addEventListener("submit", (e) => {
           e.preventDefault();
@@ -1251,6 +1248,55 @@
             }
           });
         });
+      }
+
+      if (btnSaveSampleCategory) {
+        btnSaveSampleCategory.addEventListener("click", () => {
+          const catName = inputNewSampleCategory ? inputNewSampleCategory.value.trim() : "";
+          if (!catName) {
+            showToast("Nama kategori tidak boleh kosong!");
+            return;
+          }
+
+          const originalName = editSampleCatOriginal ? editSampleCatOriginal.value.trim() : "";
+          if (originalName) {
+            if (originalName !== catName && sampleCategories.includes(catName)) {
+              showToast("Kategori tersebut sudah ada!");
+              return;
+            }
+            const index = sampleCategories.indexOf(originalName);
+            if (index !== -1) {
+              sampleCategories[index] = catName;
+            }
+            projectsData.forEach(p => {
+              if (p.isSample && p.category === originalName) {
+                p.category = catName;
+              }
+            });
+            saveToLocalStorage();
+            showToast("Kategori sample berhasil diperbarui!");
+            resetSampleCatForm();
+          } else {
+            if (sampleCategories.includes(catName)) {
+              showToast("Kategori tersebut sudah ada!");
+              return;
+            }
+            sampleCategories.push(catName);
+            showToast("Kategori sample baru ditambahkan!");
+            if (inputNewSampleCategory) inputNewSampleCategory.value = "";
+          }
+
+          saveSampleCategories();
+          updateCounts();
+          renderSampleCategoryFilters();
+          renderSampleCategoryDropdown();
+          renderSampleCategoryManagerList();
+          renderProducts();
+        });
+      }
+
+      if (btnCancelSampleCatEdit) {
+        btnCancelSampleCatEdit.addEventListener("click", resetSampleCatForm);
       }
 
       const sampleSearchInput = document.getElementById("sampleSearchInput");
@@ -1284,6 +1330,7 @@
           updateTabButtonsUI(tabMainProduct);
           if (categoryWrapper) categoryWrapper.classList.remove("hidden");
           if (sampleCategoryWrapper) sampleCategoryWrapper.classList.add("hidden");
+          if (sampleCategoryManagerBox) sampleCategoryManagerBox.classList.add("hidden");
           if (sizeWrapper) sizeWrapper.classList.remove("hidden");
           if (audioWrapper) audioWrapper.classList.add("hidden");
           if (coverWrapper) coverWrapper.classList.remove("hidden");
@@ -1297,6 +1344,7 @@
           updateTabButtonsUI(tabLimitedEdition);
           if (categoryWrapper) categoryWrapper.classList.add("hidden");
           if (sampleCategoryWrapper) sampleCategoryWrapper.classList.add("hidden");
+          if (sampleCategoryManagerBox) sampleCategoryManagerBox.classList.add("hidden");
           if (sizeWrapper) sizeWrapper.classList.add("hidden");
           if (audioWrapper) audioWrapper.classList.add("hidden");
           if (coverWrapper) coverWrapper.classList.remove("hidden");
@@ -1310,6 +1358,7 @@
           updateTabButtonsUI(tabPlugins);
           if (categoryWrapper) categoryWrapper.classList.add("hidden");
           if (sampleCategoryWrapper) sampleCategoryWrapper.classList.add("hidden");
+          if (sampleCategoryManagerBox) sampleCategoryManagerBox.classList.add("hidden");
           if (sizeWrapper) sizeWrapper.classList.add("hidden");
           if (audioWrapper) audioWrapper.classList.add("hidden");
           if (coverWrapper) coverWrapper.classList.remove("hidden");
@@ -1323,11 +1372,14 @@
           updateTabButtonsUI(tabSamplePasaran);
           if (categoryWrapper) categoryWrapper.classList.add("hidden");
           if (sampleCategoryWrapper) sampleCategoryWrapper.classList.remove("hidden");
+          if (sampleCategoryManagerBox) sampleCategoryManagerBox.classList.remove("hidden");
           if (sizeWrapper) sizeWrapper.classList.add("hidden");
           if (audioWrapper) audioWrapper.classList.remove("hidden");
           if (coverWrapper) coverWrapper.classList.add("hidden");
           if (inputSize) inputSize.required = false;
           if (inputProductType) inputProductType.value = "SAMPLE";
+          resetSampleCategoryDropdown();
+          renderSampleCategoryManagerList();
           resetForm();
         });
       }
@@ -1342,20 +1394,6 @@
           btn.classList.add("bg-white", "text-black", "shadow-lg", "shadow-white/10");
 
           currentCategory = btn.getAttribute("data-category");
-          renderProducts();
-        });
-      });
-
-      sampleCategoryButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          sampleCategoryButtons.forEach((b) => {
-            b.classList.remove("bg-white", "text-black", "shadow-lg", "shadow-white/10");
-            b.classList.add("bg-zinc-900", "text-zinc-400", "border", "border-zinc-800");
-          });
-          btn.classList.remove("bg-zinc-900", "text-zinc-400", "border", "border-zinc-800");
-          btn.classList.add("bg-white", "text-black", "shadow-lg", "shadow-white/10");
-
-          currentSampleCategory = btn.getAttribute("data-sample-cat");
           renderProducts();
         });
       });
@@ -1443,7 +1481,7 @@
           if (type === "MAIN") {
             category = inputCategory ? inputCategory.value : "FL STUDIO";
           } else if (type === "SAMPLE") {
-            category = inputSampleCategory ? inputSampleCategory.value : "Vocal Drop";
+            category = inputSampleCategory ? inputSampleCategory.value : sampleCategories[0];
           } else {
             category = type;
           }
@@ -1537,6 +1575,134 @@
 
           adminCurrentCat = cat;
           renderAdminTable();
+        });
+      });
+    }
+
+    function resetSampleCatForm() {
+      if (editSampleCatOriginal) editSampleCatOriginal.value = "";
+      if (inputNewSampleCategory) inputNewSampleCategory.value = "";
+      if (btnSaveSampleCategory) btnSaveSampleCategory.textContent = "Tambah";
+      if (btnCancelSampleCatEdit) btnCancelSampleCatEdit.classList.add("hidden");
+    }
+
+    function resetSampleCategoryDropdown() {
+      renderSampleCategoryDropdown();
+    }
+
+    function editSampleCategory(catName) {
+      if (editSampleCatOriginal) editSampleCatOriginal.value = catName;
+      if (inputNewSampleCategory) {
+        inputNewSampleCategory.value = catName;
+        inputNewSampleCategory.focus();
+      }
+      if (btnSaveSampleCategory) btnSaveSampleCategory.textContent = "Simpan";
+      if (btnCancelSampleCatEdit) btnCancelSampleCatEdit.classList.remove("hidden");
+    }
+
+    function deleteSampleCategory(catName) {
+      if (sampleCategories.length <= 1) {
+        showToast("Minimal harus ada 1 kategori sample!");
+        return;
+      }
+      if (confirm(`Hapus kategori "${catName}"? Sample dengan kategori ini akan dipindahkan ke kategori pertama.`)) {
+        const fallbackCat = sampleCategories.find(c => c !== catName) || "Other";
+        sampleCategories = sampleCategories.filter(c => c !== catName);
+        
+        projectsData.forEach(p => {
+          if (p.isSample && p.category === catName) {
+            p.category = fallbackCat;
+          }
+        });
+
+        if (currentSampleCategory === catName) {
+          currentSampleCategory = "ALL";
+        }
+
+        saveSampleCategories();
+        saveToLocalStorage();
+        updateCounts();
+        renderSampleCategoryFilters();
+        renderSampleCategoryDropdown();
+        renderSampleCategoryManagerList();
+        renderProducts();
+        showToast(`Kategori "${catName}" berhasil dihapus.`);
+      }
+    }
+
+    function renderSampleCategoryManagerList() {
+      if (!sampleCategoryListBadges) return;
+      sampleCategoryListBadges.innerHTML = "";
+
+      sampleCategories.forEach(cat => {
+        const badgeEl = document.createElement("div");
+        badgeEl.className = "flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs font-mono text-zinc-200";
+        badgeEl.innerHTML = `
+          <span>${cat}</span>
+          <div class="flex items-center gap-1.5 ml-2">
+            <button type="button" onclick="editSampleCategory('${cat}')" class="text-blue-400 hover:text-blue-300 p-0.5" title="Edit Kategori">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            </button>
+            <button type="button" onclick="deleteSampleCategory('${cat}')" class="text-red-400 hover:text-red-300 p-0.5" title="Hapus Kategori">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        sampleCategoryListBadges.appendChild(badgeEl);
+      });
+      refreshIcons();
+    }
+
+    function renderSampleCategoryDropdown() {
+      if (!inputSampleCategory) return;
+      const currentSelected = inputSampleCategory.value;
+      inputSampleCategory.innerHTML = "";
+
+      sampleCategories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        if (cat === currentSelected) opt.selected = true;
+        inputSampleCategory.appendChild(opt);
+      });
+    }
+
+    function renderSampleCategoryFilters() {
+      const container = document.getElementById("sampleCategoryFilter");
+      if (!container) return;
+      
+      const sampleProducts = projectsData.filter((p) => p.isSample);
+
+      let html = `
+        <button data-sample-cat="ALL" class="sample-filter-btn ${currentSampleCategory === 'ALL' ? 'active bg-white text-black shadow-lg shadow-white/10' : 'bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800'} px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 cursor-pointer flex-shrink-0">
+          SEMUA (<span id="sampleCountAll">${sampleProducts.length}</span>)
+        </button>
+      `;
+
+      sampleCategories.forEach(cat => {
+        const count = sampleProducts.filter(p => p.category === cat).length;
+        const isActive = currentSampleCategory === cat;
+        html += `
+          <button data-sample-cat="${cat}" class="sample-filter-btn ${isActive ? 'active bg-white text-black shadow-lg shadow-white/10' : 'bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800'} px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 cursor-pointer flex-shrink-0">
+            ${cat} (<span>${count}</span>)
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      const buttons = container.querySelectorAll(".sample-filter-btn");
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          buttons.forEach((b) => {
+            b.classList.remove("bg-white", "text-black", "shadow-lg", "shadow-white/10");
+            b.classList.add("bg-zinc-900", "text-zinc-400", "border", "border-zinc-800");
+          });
+          btn.classList.remove("bg-zinc-900", "text-zinc-400", "border", "border-zinc-800");
+          btn.classList.add("bg-white", "text-black", "shadow-lg", "shadow-white/10");
+
+          currentSampleCategory = btn.getAttribute("data-sample-cat");
+          renderProducts();
         });
       });
     }
@@ -1671,7 +1837,8 @@
       initVisitorCounter();
       initDomElements();
       setupEventListeners();
-      loadPromoConfig(); // Ambil data popup dari Firebase
+      loadSampleCategories();
+      loadPromoConfig();
 
       let currentGhConfig = defaultGhConfig;
       const savedGhConfig = localStorage.getItem("gh_config");
@@ -1699,6 +1866,8 @@
       }
       
       updateCounts();
+      renderSampleCategoryFilters();
+      renderSampleCategoryDropdown();
       renderProducts();
       updateCartUI();
       checkUrlQueryParam();
@@ -1787,18 +1956,10 @@
       if (sampleCountDisplay) sampleCountDisplay.textContent = `${sampleProducts.length} samples`;
       if (adminTableCount) adminTableCount.textContent = projectsData.length;
 
-      const sampleCats = ["Vocal Drop", "Lead", "Melody", "Kick", "Clap", "Bass", "Chop", "FX", "Other"];
       const sAll = document.getElementById("sampleCountAll");
       if (sAll) sAll.textContent = sampleProducts.length;
 
-      sampleCats.forEach(cat => {
-        const catId = "sampleCount" + cat.replace(/\s+/g, '');
-        const el = document.getElementById(catId);
-        if (el) {
-          const count = sampleProducts.filter(p => p.category === cat).length;
-          el.textContent = count;
-        }
-      });
+      renderSampleCategoryFilters();
     }
 
     function refreshIcons() {
@@ -2078,7 +2239,10 @@
       if (editProjectId) editProjectId.value = item.id;
       if (inputTitle) inputTitle.value = item.title;
       if (inputCategory && !item.isLimited && !item.isPlugin && !item.isSample) inputCategory.value = item.category;
-      if (inputSampleCategory && item.isSample) inputSampleCategory.value = item.category || "Vocal Drop";
+      if (inputSampleCategory && item.isSample) {
+        renderSampleCategoryDropdown();
+        inputSampleCategory.value = item.category || sampleCategories[0];
+      }
       if (inputSize) inputSize.value = item.size || "";
       if (inputUrl) inputUrl.value = item.downloadUrl;
       if (inputAudioUrl) inputAudioUrl.value = item.audioUrl || "";
@@ -2106,6 +2270,9 @@
         formTitle.textContent = activeAdminTab === "LIMITED" ? "➕ Tambah Tools" : activeAdminTab === "PLUGINS" ? "➕ Tambah Plugins" : activeAdminTab === "SAMPLE" ? "➕ Tambah Sample Pasar-an" : "➕ Tambah Produk Utama";
       }
       if (btnCancelEdit) btnCancelEdit.classList.add("hidden");
+      if (activeAdminTab === "SAMPLE") {
+        renderSampleCategoryDropdown();
+      }
     }
 
     window.addEventListener("DOMContentLoaded", initData);
