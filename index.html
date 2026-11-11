@@ -147,6 +147,46 @@
     </div>
   </header>
 
+  <!-- POP UP PROMOSI / INFORMASI OTOMATIS (GLOBAL USER) -->
+  <div id="promoModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-md w-full p-5 sm:p-6 space-y-4 shadow-2xl relative">
+      
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
+          <span id="promoBadge" class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Informasi</span>
+        </div>
+        <button id="btnClosePromo" class="text-zinc-500 hover:text-white p-1 rounded-lg cursor-pointer transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div id="promoImgWrapper" class="relative w-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 aspect-video hidden">
+          <img id="promoImg" src="" class="w-full h-full object-cover">
+        </div>
+
+        <h2 id="promoTitle" class="text-base sm:text-lg font-extrabold text-white leading-snug"></h2>
+        
+        <p id="promoDesc" class="text-xs text-zinc-300 leading-relaxed font-sans whitespace-pre-line"></p>
+
+        <div id="promoActionWrapper" class="pt-2 hidden">
+          <a 
+            id="promoActionBtn" 
+            href="#" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="w-full py-2.5 bg-white hover:bg-zinc-200 text-black font-mono font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-white/5 cursor-pointer"
+          >
+            <span id="promoBtnText">Lihat Informasi</span>
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- POP UP ADMIN -->
   <div id="adminSection" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar">
@@ -187,6 +227,56 @@
       <!-- ADMIN CONTROLS -->
       <div id="adminContent" class="hidden space-y-8">
         
+        <!-- PENGATURAN POPUP PROMOSI / INFORMASI -->
+        <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="megaphone" class="w-4 h-4 text-amber-400"></i>
+              <span>Kelola Popup Promosi / Informasi</span>
+            </h3>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <span class="text-xs font-mono text-zinc-400">Status Popup:</span>
+              <input type="checkbox" id="promoStatusToggle" class="w-4 h-4 accent-amber-500 cursor-pointer">
+            </label>
+          </div>
+
+          <form id="promoForm" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="sm:col-span-2">
+              <label class="block text-zinc-400 font-mono mb-1">Judul Pengumuman / Promosi *</label>
+              <input type="text" id="inputPromoTitle" placeholder="Contoh: Promo Diskon VST / Info Update Terbaru" class="w-full px-3 py-2 bg-black border border-zinc-800 rounded-xl font-mono text-white text-xs">
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-zinc-400 font-mono mb-1">Deskripsi / Teks Informasi *</label>
+              <textarea id="inputPromoDesc" rows="3" placeholder="Tuliskan deskripsi lengkap promosi atau pengumuman di sini..." class="w-full px-3 py-2 bg-black border border-zinc-800 rounded-xl font-mono text-white text-xs"></textarea>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-zinc-400 font-mono mb-1">URL Gambar (Opsional)</label>
+              <input type="url" id="inputPromoImg" placeholder="https://..." class="w-full px-3 py-2 bg-black border border-zinc-800 rounded-xl font-mono text-white text-xs">
+            </div>
+
+            <div>
+              <label class="block text-zinc-400 font-mono mb-1">Teks Tombol Aksi (Opsional)</label>
+              <input type="text" id="inputPromoBtnText" placeholder="Contoh: Lihat, Download, Buka Link" class="w-full px-3 py-2 bg-black border border-zinc-800 rounded-xl font-mono text-white text-xs">
+            </div>
+
+            <div>
+              <label class="block text-zinc-400 font-mono mb-1">Link Tujuan Tombol (Opsional)</label>
+              <input type="url" id="inputPromoBtnUrl" placeholder="https://..." class="w-full px-3 py-2 bg-black border border-zinc-800 rounded-xl font-mono text-white text-xs">
+            </div>
+
+            <div class="sm:col-span-2 flex justify-end gap-2 pt-2">
+              <button type="button" id="btnPreviewPromo" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-mono font-bold rounded-xl transition cursor-pointer">
+                Pratinjau PopUp
+              </button>
+              <button type="submit" class="px-5 py-2 bg-amber-400 hover:bg-amber-300 text-black text-xs font-mono font-bold rounded-xl transition cursor-pointer">
+                Simpan Informasi
+              </button>
+            </div>
+          </form>
+        </div>
+
         <!-- SYNC -->
         <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-5 space-y-4">
           <div class="flex items-center justify-between">
@@ -770,7 +860,11 @@
             <img src="sociabuzz.png" alt="SociaBuzz" class="w-4 h-4 object-contain" onerror="this.src='https://placehold.co/16x16/111/fff?text=SB'">
           </a>
         </div>
-  <!-- JAVASCRIPT -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT UTAMA -->
   <script>
     const defaultProjects = [];
 
@@ -792,6 +886,16 @@
     let activeAdminTab = "MAIN";
     let adminSearchQuery = "";
     let adminCurrentCat = "ALL";
+
+    // DATA DEFAULT PROMOSI / POPUP
+    let promoConfig = {
+      enabled: false,
+      title: "",
+      desc: "",
+      imgUrl: "",
+      btnText: "",
+      btnUrl: ""
+    };
 
     // DEFAULT ICON WAVE AUDIO SVG
     const defaultWaveAudioSvg = "data:image/svg+xml;utf8," + encodeURIComponent(`
@@ -834,6 +938,10 @@
     let btnToggleAdmin, adminSection, btnCloseAdmin, adminAuthBox, adminPassInput, btnUnlockAdmin, adminAuthMsg, adminContent;
     let projectForm, formTitle, editProjectId, inputTitle, inputCategory, inputSize, inputUrl, inputCoverUrl, btnCancelEdit, adminTableBody, adminTableCount;
     let ghToken, ghRepo, ghBranch, ghPath, btnSaveGhConfig, btnPushToGithub, ghSyncStatus;
+
+    // ELEMEN PROMO POPUP
+    let promoModal, btnClosePromo, promoImgWrapper, promoImg, promoTitle, promoDesc, promoActionWrapper, promoActionBtn, promoBtnText;
+    let promoForm, promoStatusToggle, inputPromoTitle, inputPromoDesc, inputPromoImg, inputPromoBtnText, inputPromoBtnUrl, btnPreviewPromo;
 
     // FUNGSI MENCATAT & BUKA MODAL PRODUK UTAMA
     function trackAndOpenModal(idOrObject) {
@@ -886,6 +994,67 @@
       try {
         window.history.pushState({ path: window.location.pathname }, "", window.location.pathname);
       } catch (e) {}
+    }
+
+    // FUNGSI DUA POPUP PROMOSI / INFORMASI
+    function openPromoModal(customData = null) {
+      const data = customData || promoConfig;
+      if (!data.title && !data.desc) return;
+
+      if (promoTitle) promoTitle.textContent = data.title || "Informasi";
+      if (promoDesc) promoDesc.textContent = data.desc || "";
+
+      if (promoImgWrapper && promoImg) {
+        if (data.imgUrl && data.imgUrl.trim() !== "") {
+          promoImg.src = data.imgUrl.trim();
+          promoImgWrapper.classList.remove("hidden");
+        } else {
+          promoImg.src = "";
+          promoImgWrapper.classList.add("hidden");
+        }
+      }
+
+      if (promoActionWrapper && promoActionBtn && promoBtnText) {
+        if (data.btnUrl && data.btnUrl.trim() !== "") {
+          promoActionBtn.href = data.btnUrl.trim();
+          promoBtnText.textContent = data.btnText && data.btnText.trim() !== "" ? data.btnText.trim() : "Lihat Informasi";
+          promoActionWrapper.classList.remove("hidden");
+        } else {
+          promoActionWrapper.classList.add("hidden");
+        }
+      }
+
+      if (promoModal) promoModal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+      refreshIcons();
+    }
+
+    function closePromoModal() {
+      if (promoModal) promoModal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    function loadPromoConfig() {
+      const savedPromo = localStorage.getItem("arisplrfifteen_promo");
+      if (savedPromo) {
+        try {
+          promoConfig = { ...promoConfig, ...JSON.parse(savedPromo) };
+        } catch (e) {}
+      }
+
+      if (promoStatusToggle) promoStatusToggle.checked = promoConfig.enabled;
+      if (inputPromoTitle) inputPromoTitle.value = promoConfig.title || "";
+      if (inputPromoDesc) inputPromoDesc.value = promoConfig.desc || "";
+      if (inputPromoImg) inputPromoImg.value = promoConfig.imgUrl || "";
+      if (inputPromoBtnText) inputPromoBtnText.value = promoConfig.btnText || "";
+      if (inputPromoBtnUrl) inputPromoBtnUrl.value = promoConfig.btnUrl || "";
+
+      // JIKA ENABLED, TAMPILKAN OTOMATIS SAAT WEB DIBUKA
+      if (promoConfig.enabled && promoConfig.title) {
+        setTimeout(() => {
+          openPromoModal();
+        }, 600);
+      }
     }
 
     function initDomElements() {
@@ -980,9 +1149,60 @@
       btnSaveGhConfig = document.getElementById("btnSaveGhConfig");
       btnPushToGithub = document.getElementById("btnPushToGithub");
       ghSyncStatus = document.getElementById("ghSyncStatus");
+
+      // DOM POPUP INFORMASI
+      promoModal = document.getElementById("promoModal");
+      btnClosePromo = document.getElementById("btnClosePromo");
+      promoImgWrapper = document.getElementById("promoImgWrapper");
+      promoImg = document.getElementById("promoImg");
+      promoTitle = document.getElementById("promoTitle");
+      promoDesc = document.getElementById("promoDesc");
+      promoActionWrapper = document.getElementById("promoActionWrapper");
+      promoActionBtn = document.getElementById("promoActionBtn");
+      promoBtnText = document.getElementById("promoBtnText");
+
+      promoForm = document.getElementById("promoForm");
+      promoStatusToggle = document.getElementById("promoStatusToggle");
+      inputPromoTitle = document.getElementById("inputPromoTitle");
+      inputPromoDesc = document.getElementById("inputPromoDesc");
+      inputPromoImg = document.getElementById("inputPromoImg");
+      inputPromoBtnText = document.getElementById("inputPromoBtnText");
+      inputPromoBtnUrl = document.getElementById("inputPromoBtnUrl");
+      btnPreviewPromo = document.getElementById("btnPreviewPromo");
     }
 
     function setupEventListeners() {
+      if (btnClosePromo) btnClosePromo.addEventListener("click", closePromoModal);
+
+      if (btnPreviewPromo) {
+        btnPreviewPromo.addEventListener("click", () => {
+          const previewData = {
+            title: inputPromoTitle ? inputPromoTitle.value.trim() : "",
+            desc: inputPromoDesc ? inputPromoDesc.value.trim() : "",
+            imgUrl: inputPromoImg ? inputPromoImg.value.trim() : "",
+            btnText: inputPromoBtnText ? inputPromoBtnText.value.trim() : "",
+            btnUrl: inputPromoBtnUrl ? inputPromoBtnUrl.value.trim() : ""
+          };
+          openPromoModal(previewData);
+        });
+      }
+
+      if (promoForm) {
+        promoForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          promoConfig = {
+            enabled: promoStatusToggle ? promoStatusToggle.checked : false,
+            title: inputPromoTitle ? inputPromoTitle.value.trim() : "",
+            desc: inputPromoDesc ? inputPromoDesc.value.trim() : "",
+            imgUrl: inputPromoImg ? inputPromoImg.value.trim() : "",
+            btnText: inputPromoBtnText ? inputPromoBtnText.value.trim() : "",
+            btnUrl: inputPromoBtnUrl ? inputPromoBtnUrl.value.trim() : ""
+          };
+          localStorage.setItem("arisplrfifteen_promo", JSON.stringify(promoConfig));
+          showToast("Pengaturan Popup Promosi Berhasil Disimpan!");
+        });
+      }
+
       const sampleSearchInput = document.getElementById("sampleSearchInput");
       if (sampleSearchInput) {
         sampleSearchInput.addEventListener("input", (e) => {
@@ -1401,6 +1621,7 @@
       initVisitorCounter();
       initDomElements();
       setupEventListeners();
+      loadPromoConfig();
 
       let currentGhConfig = defaultGhConfig;
       const savedGhConfig = localStorage.getItem("gh_config");
